@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0">
+  <siteMapNode url="Default.aspx" title="Home"  description="Home">
+    <siteMapNode title="Reports" description="Reports"  roles="SITE_ADMN,USER">
+      <siteMapNode url="Reports/AddsDetail.aspx" title="Adds Detail" />
+      <siteMapNode url="Reports/CustomerDetail.aspx" title="Customer Detail" />
+      <siteMapNode url="Reports/DealerAmounts.aspx" title="Dealer Amounts" />
+      <siteMapNode url="Reports/DealerTotals.aspx" title="Dealer Totals" />
+      <siteMapNode url="Reports/OutsDetail.aspx" title="Outs Detail" />
+      <siteMapNode url="Reports/SecurityCustomerCount.aspx" title="Security Customer Count" />
+    </siteMapNode>
+    <siteMapNode title="Admin" roles="SITE_ADMN">
+      <siteMapNode url="Admin/Users.aspx" title="Users"/>
+    </siteMapNode>
+  </siteMapNode>
+</siteMap>
