@@ -16,7 +16,7 @@
     <h3 style="text-align: center;">Dealer Outs/Adds Amounts</h3>
     <table class="igoogle-summer" width="969px">
         <tr>
-            <th>Type:
+            <th width="50px" >Type:
             </th>
             <td>
                 <asp:DropDownList ID="ddlType" runat="server" DataSourceID="dsType" DataTextField="DEALER_REPORT" AutoPostBack="true" OnTextChanged="ddlType_Click"
@@ -57,7 +57,7 @@
         </SelectParameters>
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsOutsDetailExportAll" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
-        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT VW.DEALER, CNT, RATE_OUTS, RATE_ADDS FROM DEALER_CNT_RATES_VW VW, DEALER_INFO D WHERE DEALER_REPORT = :type AND VW.DEALER = D.DEALER UNION ALL SELECT 'TOTAL' AS DEALER, SUM(CNT) CNT, SUM(RATE_OUTS) AS RATE_OUTS, SUM(RATE_ADDS) AS RATE_ADDS FROM DEALER_CNT_RATES_VW VW, DEALER_INFO D WHERE DEALER_REPORT = :type AND VW.DEALER = D.DEALER ">
+        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT VW.DEALER, COALESCE(CNT, 0) CNT, COALESCE(RATE_OUTS, 0.00) RATE_OUTS, COALESCE(RATE_OUTS, 0.00) RATE_OUTS FROM DEALER_CNT_RATES_VW VW, DEALER_INFO D WHERE DEALER_REPORT = :type AND VW.DEALER = D.DEALER UNION ALL SELECT 'TOTAL' AS DEALER, SUM(CNT) CNT, SUM(RATE_OUTS) AS RATE_OUTS, SUM(RATE_ADDS) AS RATE_ADDS FROM DEALER_CNT_RATES_VW VW, DEALER_INFO D WHERE DEALER_REPORT = :type AND VW.DEALER = D.DEALER ">
         <SelectParameters>
             <asp:ControlParameter ControlID="ddlType" Name="type" PropertyName="SelectedValue" DefaultValue="CLEC SEC" />
         </SelectParameters>

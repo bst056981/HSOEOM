@@ -16,7 +16,7 @@
     <h3 style="text-align: center;">ADDS Detail</h3>
     <table class="igoogle-summer" width="969px">
         <tr>
-            <th>Type:
+            <th width="50px">Type:
             </th>
             <td>
                 <asp:DropDownList ID="ddlTypeAdds" runat="server" OnClick="ddlTypeAdds_Click" AutoPostBack="true">
@@ -38,7 +38,7 @@
             <asp:BoundField DataField="PANEL" HeaderText="Panel" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" />
             <asp:BoundField DataField="DEALER" HeaderText="Dealer" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" />
             <asp:BoundField DataField="START_DATE" HeaderText="Start Date" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" />
-            <asp:BoundField DataField="MAP" HeaderText="Map" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" />
+            <asp:BoundField DataField="CYCLE" HeaderText="Cycle" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" />
             <asp:BoundField DataField="BRANCH" HeaderText="Branch" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" />
             <asp:BoundField DataField="AMOUNT" HeaderText="Amount" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" />
             <asp:BoundField DataField="REP" HeaderText="Rep" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" />
@@ -60,13 +60,13 @@
         <AlternatingRowStyle Font-Underline="False" />
     </asp:GridView>
     <asp:SqlDataSource ID="dsAddsDetail" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
-        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT CLEC_ADDS_ID AS ID, DICE, NAME, TYPE, PANEL, DEALER, START_DATE, MAP, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, RATE FROM CLEC_ADDS WHERE :typeAdds = 'CLEC' UNION ALL SELECT ILEC_ADDS_ID AS ID, DICE, NAME, TYPE, PANEL, DEALER, START_DATE, MAP, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, RATE FROM ILEC_ADDS WHERE :typeAdds = 'ILEC'">
+        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT CLEC_ADDS_ID AS ID, DICE, NAME, TYPE, PANEL, DEALER, START_DATE, CYCLE, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, RATE FROM CLEC_ADDS WHERE :typeAdds = 'CLEC' UNION ALL SELECT ILEC_ADDS_ID AS ID, DICE, NAME, TYPE, PANEL, DEALER, START_DATE, CYCLE, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, RATE FROM ILEC_ADDS WHERE :typeAdds = 'ILEC'">
         <SelectParameters>
             <asp:ControlParameter ControlID="ddlTypeAdds" Name="typeAdds" PropertyName="SelectedValue" />
         </SelectParameters>
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsAddsDetailExportAll" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
-        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT DICE, NAME, TYPE, PANEL, DEALER, START_DATE, MAP, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, RATE FROM CLEC_ADDS WHERE :typeAdds = 'CLEC' UNION ALL SELECT DICE, NAME, TYPE, PANEL, DEALER, START_DATE, MAP, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, RATE FROM ILEC_ADDS WHERE :typeAdds = 'ILEC'">
+        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT DICE, NAME, TYPE, PANEL, DEALER, START_DATE, CYCLE, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, RATE FROM CLEC_ADDS WHERE :typeAdds = 'CLEC' UNION ALL SELECT DICE, NAME, TYPE, PANEL, DEALER, START_DATE, CYCLE, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, RATE FROM ILEC_ADDS WHERE :typeAdds = 'ILEC'">
         <SelectParameters>
             <asp:ControlParameter ControlID="ddlTypeAdds" Name="typeAdds" PropertyName="SelectedValue" />
         </SelectParameters>

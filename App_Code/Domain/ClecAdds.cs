@@ -15,7 +15,7 @@ namespace Agile.Domain
         private string _panel;
         private string _dealer;
         private string _startDate;
-        private string _map;
+        private string _cycle;
         private string _branch;
         private string _amount;
         private string _rep;
@@ -23,6 +23,8 @@ namespace Agile.Domain
         private string _tech;
         private string _ban;
         private string _rate;
+        private string _enteredDate;
+        private string _enteredId;
 
         public ClecAdds() {
 
@@ -35,7 +37,7 @@ namespace Agile.Domain
         public string Panel { get { return _panel; } set { _panel = value; } }
         public string Dealer { get { return _dealer; } set { _dealer = value; } }
         public string StartDate { get { return _startDate; } set { _startDate = value; } }
-        public string Map { get { return _map; } set { _map = value; } }
+        public string Cycle { get { return _cycle; } set { _cycle = value; } }
         public string Branch { get { return _branch; } set { _branch = value; } }
         public string Amount { get { return _amount; } set { _amount = value; } }
         public string Rep { get { return _rep; } set { _rep = value; } }
@@ -43,16 +45,20 @@ namespace Agile.Domain
         public string Tech { get { return _tech; } set { _tech = value; } }
         public string Ban { get { return _ban; } set { _ban = value; } }
         public string Rate { get { return _rate; } set { _rate = value; } }
+        public string EnteredDate { get { return _enteredDate; } set { _enteredDate = value; } }
+        public string EnteredId { get { return _enteredId; } set { _enteredId = value; } }
 
         #region SQL
         public const string SELECT_CLEC_ADDS =
-            "SELECT CLEC_ADDS_ID, DICE, NAME, TYPE, PANEL, DEALER, START_DATE, MAP, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, RATE FROM CLEC_ADDS WHERE CLEC_ADDS_ID = :CLEC_ADDS_ID";
+            "SELECT CLEC_ADDS_ID, DICE, NAME, TYPE, PANEL, DEALER, START_DATE, CYCLE, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, RATE, ENTERED_DATE, ENTERED_ID FROM CLEC_ADDS WHERE CLEC_ADDS_ID = :CLEC_ADDS_ID";
         public const string INSERT_CLEC_ADDS =
-            "INSERT INTO CLEC_ADDS(CLEC_ADDS_ID, DICE, NAME, TYPE, PANEL, DEALER, START_DATE, MAP, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, RATE) VALUES (:CLEC_ADDS_ID, :DICE, :NAME, :TYPE, :PANEL, :DEALER, :START_DATE, :MAP, :BRANCH, :AMOUNT, :REP, :SERVICE, :TECH, :BAN, :RATE)";
+            "INSERT INTO CLEC_ADDS(CLEC_ADDS_ID, DICE, NAME, TYPE, PANEL, DEALER, START_DATE, CYCLE, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, RATE, ENTERED_DATE, ENTERED_ID) VALUES (:CLEC_ADDS_ID, :DICE, :NAME, :TYPE, :PANEL, :DEALER, :START_DATE, :CYCLE, :BRANCH, :AMOUNT, :REP, :SERVICE, :TECH, :BAN, :RATE, :ENTERED_DATE, :ENTERED_ID)";
         public const string UPDATE_CLEC_ADDS =
-            "UPDATE CLEC_ADDS SET DICE = :DICE, NAME = :NAME, TYPE = :TYPE, PANEL = :PANEL, DEALER = :DEALER, START_DATE = :START_DATE, MAP = :MAP, BRANCH = :BRANCH, AMOUNT = :AMOUNT, REP = :REP, SERVICE = :SERVICE, TECH = :TECH, BAN = :BAN, RATE = :RATE WHERE CLEC_ADDS_ID = :CLEC_ADDS_ID";
+            "UPDATE CLEC_ADDS SET DICE = :DICE, NAME = :NAME, TYPE = :TYPE, PANEL = :PANEL, DEALER = :DEALER, START_DATE = :START_DATE, CYCLE = :CYCLE, BRANCH = :BRANCH, AMOUNT = :AMOUNT, REP = :REP, SERVICE = :SERVICE, TECH = :TECH, BAN = :BAN, RATE = :RATE, ENTERED_DATE = :ENTERED_DATE, ENTERED_ID = :ENTERED_ID WHERE CLEC_ADDS_ID = :CLEC_ADDS_ID";
         public const string DELETE_CLEC_ADDS = 
             "DELETE FROM CLEC_ADDS WHERE CLEC_ADDS_ID = :CLEC_ADDS_ID";
+        public const string GET_CLEC_ADDS_ID =
+          "SELECT CLEC_ADDS_ID_SEQ.NEXTVAL FROM DUAL";
         #endregion
     }
 }

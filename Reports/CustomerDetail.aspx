@@ -31,7 +31,7 @@
                     DataValueField="DEALER" OnDataBound="ddlAddAll">
                 </asp:DropDownList>
                 <asp:SqlDataSource ID="dsDealer" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
-                    ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT DISTINCT DEALER FROM CUSTOMER WHERE (:STATUS = 'Active' AND END_DATE = ' ') OR (:STATUS = 'Inactive' AND END_DATE != ' ') ORDER BY DEALER">
+                    ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT DISTINCT DEALER FROM CUSTOMER WHERE (:STATUS = 'Active' AND INACTIVE_DATE = ' ') OR (:STATUS = 'Inactive' AND INACTIVE_DATE != ' ') ORDER BY DEALER">
                     <SelectParameters>
                         <asp:ControlParameter ControlID="ddlStatus" Name="STATUS" PropertyName="SelectedValue" />
                     </SelectParameters>
@@ -72,7 +72,7 @@
             <asp:BoundField DataField="NAME" HeaderText="Name" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center"></asp:BoundField>
             <asp:BoundField DataField="DEALER" HeaderText="Dealer" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" />
             <asp:BoundField DataField="START_DATE" HeaderText="Start Date" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" />
-            <asp:BoundField DataField="END_DATE" HeaderText="End Date" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" />
+            <asp:BoundField DataField="INACTIVE_DATE" HeaderText="End Date" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" />
         </Columns>
         <PagerStyle Font-Underline="True" />
         <EmptyDataTemplate>
@@ -87,7 +87,7 @@
         <AlternatingRowStyle Font-Underline="False" />
     </asp:GridView>
     <asp:SqlDataSource ID="dsCustomer" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
-        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT CUST_ID, DICE, NAME, DEALER,  START_DATE, END_DATE FROM CUSTOMER WHERE (( TO_DATE(START_DATE, 'MM/DD/YYYY') >= TO_DATE(:startDate, 'MM/DD/YYYY')) AND TO_DATE(START_DATE, 'MM/DD/YYYY') <= TO_DATE(:endDate, 'MM/DD/YYYY')) AND (LOWER(DEALER) LIKE LOWER( :dealer )  || '%') AND ((:status = 'Active' AND END_DATE = ' ') OR (:status = 'Inactive' AND END_DATE != ' ')) ORDER BY DEALER, DICE">
+        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT CUST_ID, DICE, NAME, DEALER,  START_DATE, INACTIVE_DATE FROM CUSTOMER WHERE (( TO_DATE(START_DATE, 'MM/DD/YYYY') >= TO_DATE(:startDate, 'MM/DD/YYYY')) AND TO_DATE(START_DATE, 'MM/DD/YYYY') <= TO_DATE(:endDate, 'MM/DD/YYYY')) AND (LOWER(DEALER) LIKE LOWER( :dealer )  || '%') AND ((:status = 'Active' AND INACTIVE_DATE = ' ') OR (:status = 'Inactive' AND INACTIVE_DATE != ' ')) ORDER BY DEALER, DICE">
          <SelectParameters>
             <asp:ControlParameter ControlID="txtStartDate" PropertyName="Text" Name="startDate" DefaultValue="01/01/0001" />
             <asp:ControlParameter ControlID="txtEndDate" PropertyName="Text" Name="endDate" DefaultValue="12/31/9999" />
@@ -96,7 +96,7 @@
         </SelectParameters>
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsCustomerExportAll" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
-        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT DICE, NAME, DEALER,  START_DATE, END_DATE FROM CUSTOMER WHERE (( TO_DATE(START_DATE, 'MM/DD/YYYY') >= TO_DATE(:startDate, 'MM/DD/YYYY')) AND TO_DATE(START_DATE, 'MM/DD/YYYY') <= TO_DATE(:endDate, 'MM/DD/YYYY')) AND (LOWER(DEALER) LIKE LOWER( :dealer )  || '%') AND ((:status = 'Active' AND END_DATE = ' ') OR (:status = 'Inactive' AND END_DATE != ' ')) ORDER BY DEALER, DICE">
+        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT DICE, NAME, DEALER,  START_DATE, INACTIVE_DATE FROM CUSTOMER WHERE (( TO_DATE(START_DATE, 'MM/DD/YYYY') >= TO_DATE(:startDate, 'MM/DD/YYYY')) AND TO_DATE(START_DATE, 'MM/DD/YYYY') <= TO_DATE(:endDate, 'MM/DD/YYYY')) AND (LOWER(DEALER) LIKE LOWER( :dealer )  || '%') AND ((:status = 'Active' AND INACTIVE_DATE = ' ') OR (:status = 'Inactive' AND INACTIVE_DATE != ' ')) ORDER BY DEALER, DICE">
         <SelectParameters>
             <asp:ControlParameter ControlID="txtStartDate" PropertyName="Text" Name="startDate" DefaultValue="01/01/0001" />
             <asp:ControlParameter ControlID="txtEndDate" PropertyName="Text" Name="endDate" DefaultValue="12/31/9999" />

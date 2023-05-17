@@ -16,7 +16,7 @@
     <h3 style="text-align: center;">OUTS Detail</h3>
     <table class="igoogle-summer" width="969px">
         <tr>
-            <th>Type:
+            <th width="50px">Type:
             </th>
             <td>
                 <asp:DropDownList ID="ddlTypeOuts" runat="server" OnClick="ddlTypeOuts_Click" AutoPostBack="true">

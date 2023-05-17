@@ -20,6 +20,8 @@ namespace Agile.Domain
         private string _service;
         private string _ban;
         private string _rate;
+        private string _enteredDate;
+        private string _enteredId;
 
         public ClecOuts() {
 
@@ -37,16 +39,20 @@ namespace Agile.Domain
         public string Service { get { return _service; } set { _service = value; } }
         public string Ban { get { return _ban; } set { _ban = value; } }
         public string Rate { get { return _rate; } set { _rate = value; } }
+        public string EnteredDate { get { return _enteredDate; } set { _enteredDate = value; } }
+        public string EnteredId { get { return _enteredId; } set { _enteredId = value; } }
 
         #region SQL
         public const string SELECT_CLEC_OUTS =
-            "SELECT CLEC_OUTS_ID, DICE, NAME, REASON, PANEL, INACTIVE_DATE, DEALER, START_DATE, REP, SERVICE, BAN, RATE FROM CLEC_OUTS WHERE CLEC_OUTS_ID = :CLEC_OUTS_ID";
+            "SELECT CLEC_OUTS_ID, DICE, NAME, REASON, PANEL, INACTIVE_DATE, DEALER, START_DATE, REP, SERVICE, BAN, RATE, ENTERED_DATE, ENTERED_ID FROM CLEC_OUTS WHERE CLEC_OUTS_ID = :CLEC_OUTS_ID";
         public const string INSERT_CLEC_OUTS =
-            "INSERT INTO CLEC_OUTS(CLEC_OUTS_ID, DICE, NAME, REASON, PANEL, INACTIVE_DATE, DEALER, START_DATE, REP, SERVICE, BAN, RATE) VALUES (:CLEC_OUTS_ID, :DICE, :NAME, :REASON, :PANEL, :INACTIVE_DATE, :DEALER, :START_DATE, :REP, :SERVICE, :BAN, :RATE)";
+            "INSERT INTO CLEC_OUTS(CLEC_OUTS_ID, DICE, NAME, REASON, PANEL, INACTIVE_DATE, DEALER, START_DATE, REP, SERVICE, BAN, RATE, ENTERED_DATE, ENTERED_ID) VALUES (:CLEC_OUTS_ID, :DICE, :NAME, :REASON, :PANEL, :INACTIVE_DATE, :DEALER, :START_DATE, :REP, :SERVICE, :BAN, :RATE, :ENTERED_DATE, :ENTERED_ID)";
         public const string UPDATE_CLEC_OUTS =
-            "UPDATE CLEC_OUTS SET DICE = :DICE, NAME = :NAME, REASON = :REASON, PANEL = :PANEL, INACTIVE_DATE = :INACTIVE_DATE, DEALER = :DEALER, START_DATE = :START_DATE, REP = :REP, SERVICE = :SERVICE, BAN = :BAN, RATE = :RATE WHERE CLEC_OUTS_ID = :CLEC_OUTS_ID";
+            "UPDATE CLEC_OUTS SET DICE = :DICE, NAME = :NAME, REASON = :REASON, PANEL = :PANEL, INACTIVE_DATE = :INACTIVE_DATE, DEALER = :DEALER, START_DATE = :START_DATE, REP = :REP, SERVICE = :SERVICE, BAN = :BAN, RATE = :RATE, ENTERED_DATE = :ENTERED_DATE, ENTERED_ID = :ENTERED_ID WHERE CLEC_OUTS_ID = :CLEC_OUTS_ID";
         public const string DELETE_CLEC_OUTS = 
             "DELETE FROM CLEC_OUTS WHERE CLEC_OUTS_ID = :CLEC_OUTS_ID";
+        public const string GET_CLEC_OUTS_ID =
+          "SELECT CLEC_OUTS_ID_SEQ.NEXTVAL FROM DUAL";
         #endregion
     }
 }

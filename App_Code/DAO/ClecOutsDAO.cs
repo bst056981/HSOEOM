@@ -32,6 +32,8 @@ namespace Agile.DAO {
                 q.Service = (((DataRow)(dt.Rows[i]))["SERVICE"]).ToString();
                 q.Ban = (((DataRow)(dt.Rows[i]))["BAN"]).ToString();
                 q.Rate = (((DataRow)(dt.Rows[i]))["RATE"]).ToString();
+                q.EnteredDate = (((DataRow)(dt.Rows[i]))["ENTERED_DATE"]).ToString();
+                q.EnteredId = (((DataRow)(dt.Rows[i]))["ENTERED_ID"]).ToString();
             }
             return q;
         }
@@ -53,7 +55,7 @@ namespace Agile.DAO {
         private OracleParameter[] createParamList(ClecOuts p) {
             int cntr = 0;
 
-            OracleParameter[] paramsList = new OracleParameter[12];
+            OracleParameter[] paramsList = new OracleParameter[14];
             paramsList[cntr++] = DBHelper.mp("CLEC_OUTS_ID", p.ClecOutsId);
             paramsList[cntr++] = DBHelper.mp("DICE", p.Dice);
             paramsList[cntr++] = DBHelper.mp("NAME", p.Name);
@@ -66,6 +68,8 @@ namespace Agile.DAO {
             paramsList[cntr++] = DBHelper.mp("SERVICE", p.Service);
             paramsList[cntr++] = DBHelper.mp("BAN", p.Ban);
             paramsList[cntr++] = DBHelper.mp("RATE", p.Rate);
+            paramsList[cntr++] = DBHelper.mp("ENTERED_DATE", p.EnteredDate);
+            paramsList[cntr++] = DBHelper.mp("ENTERED_ID", p.EnteredId);
             return paramsList;
         }
      }

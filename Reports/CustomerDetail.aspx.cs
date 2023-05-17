@@ -56,7 +56,7 @@ public partial class Reports_CustomerDetail : System.Web.UI.Page
         DataView dv = (DataView)dsCustomerExportAll.Select(DataSourceSelectArguments.Empty);
         DataTable dt = (DataTable)dv.ToTable();
         if (ddlStatus.SelectedValue == "Active")
-            dt.Columns.Remove("END_DATE"); ;
+            dt.Columns.Remove("INACTIVE_DATE");
 
         Excel.ExportToExcel(dt, ddlStatus.Text + " Customer Detail Report");
     }

@@ -20,6 +20,8 @@ namespace Agile.Domain
         private string _service;
         private string _ban;
         private string _rate;
+        private string _enteredDate;
+        private string _enteredId;
 
         public IlecOuts() {
 
@@ -37,16 +39,20 @@ namespace Agile.Domain
         public string Service { get { return _service; } set { _service = value; } }
         public string Ban { get { return _ban; } set { _ban = value; } }
         public string Rate { get { return _rate; } set { _rate = value; } }
+        public string EnteredDate { get { return _enteredDate; } set { _enteredDate = value; } }
+        public string EnteredId { get { return _enteredId; } set { _enteredId = value; } }
 
         #region SQL
         public const string SELECT_ILEC_OUTS =
-            "SELECT ILEC_OUTS_ID, DICE, NAME, REASON, PANEL, INACTIVE_DATE, DEALER, START_DATE, REP, SERVICE, BAN, RATE FROM ILEC_OUTS WHERE ILEC_OUTS_ID = :ILEC_OUTS_ID";
+            "SELECT ILEC_OUTS_ID, DICE, NAME, REASON, PANEL, INACTIVE_DATE, DEALER, START_DATE, REP, SERVICE, BAN, RATE, ENTERED_DATE, ENTERED_ID FROM ILEC_OUTS WHERE ILEC_OUTS_ID = :ILEC_OUTS_ID";
         public const string INSERT_ILEC_OUTS =
-            "INSERT INTO ILEC_OUTS(ILEC_OUTS_ID, DICE, NAME, REASON, PANEL, INACTIVE_DATE, DEALER, START_DATE, REP, SERVICE, BAN, RATE) VALUES (:ILEC_OUTS_ID, :DICE, :NAME, :REASON, :PANEL, :INACTIVE_DATE, :DEALER, :START_DATE, :REP, :SERVICE, :BAN, :RATE)";
+            "INSERT INTO ILEC_OUTS(ILEC_OUTS_ID, DICE, NAME, REASON, PANEL, INACTIVE_DATE, DEALER, START_DATE, REP, SERVICE, BAN, RATE, ENTERED_DATE, ENTERED_ID) VALUES (:ILEC_OUTS_ID, :DICE, :NAME, :REASON, :PANEL, :INACTIVE_DATE, :DEALER, :START_DATE, :REP, :SERVICE, :BAN, :RATE, :ENTERED_DATE, :ENTERED_ID)";
         public const string UPDATE_ILEC_OUTS =
-            "UPDATE ILEC_OUTS SET DICE = :DICE, NAME = :NAME, REASON = :REASON, PANEL = :PANEL, INACTIVE_DATE = :INACTIVE_DATE, DEALER = :DEALER, START_DATE = :START_DATE, REP = :REP, SERVICE = :SERVICE, BAN = :BAN, RATE = :RATE WHERE ILEC_OUTS_ID = :ILEC_OUTS_ID";
+            "UPDATE ILEC_OUTS SET DICE = :DICE, NAME = :NAME, REASON = :REASON, PANEL = :PANEL, INACTIVE_DATE = :INACTIVE_DATE, DEALER = :DEALER, START_DATE = :START_DATE, REP = :REP, SERVICE = :SERVICE, BAN = :BAN, RATE = :RATE, ENTERED_DATE = :ENTERED_DATE, ENTERED_ID = :ENTERED_ID WHERE ILEC_OUTS_ID = :ILEC_OUTS_ID";
         public const string DELETE_ILEC_OUTS = 
             "DELETE FROM ILEC_OUTS WHERE ILEC_OUTS_ID = :ILEC_OUTS_ID";
+        public const string GET_ILEC_OUTS_ID =
+          "SELECT ILEC_OUTS_ID_SEQ.NEXTVAL FROM DUAL";
         #endregion
     }
 }
