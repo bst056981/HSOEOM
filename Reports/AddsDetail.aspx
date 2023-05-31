@@ -66,7 +66,7 @@
         </SelectParameters>
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsAddsDetailExportAll" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
-        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT DICE, NAME, TYPE, PANEL, DEALER, START_DATE, CYCLE, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, RATE FROM CLEC_ADDS WHERE :typeAdds = 'CLEC' UNION ALL SELECT DICE, NAME, TYPE, PANEL, DEALER, START_DATE, CYCLE, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, RATE FROM ILEC_ADDS WHERE :typeAdds = 'ILEC'">
+        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT DICE, NAME, TYPE, PANEL, DEALER, START_DATE, CYCLE, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, TO_CHAR(RATE, 'fm9990D00') AS RATE FROM CLEC_ADDS WHERE :typeAdds = 'CLEC' UNION ALL SELECT DICE, NAME, TYPE, PANEL, DEALER, START_DATE, CYCLE, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, TO_CHAR(RATE, 'fm9990D00') AS RATE FROM ILEC_ADDS WHERE :typeAdds = 'ILEC'">
         <SelectParameters>
             <asp:ControlParameter ControlID="ddlTypeAdds" Name="typeAdds" PropertyName="SelectedValue" />
         </SelectParameters>

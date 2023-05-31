@@ -29,8 +29,8 @@
 
     <br />
 
-    <asp:GridView ID="GridView" runat="server" AutoGenerateColumns="False" DataKeyNames="REC_ID" DataSourceID="dsCustomerCnt" Style="margin-left: -200px"
-        AllowSorting="False" SkinID="igoogle-summer" OnRowDataBound="Gridview_RowDataBound" Width="1369px">
+    <asp:GridView ID="GridView" runat="server" AutoGenerateColumns="False" DataKeyNames="REC_ID" DataSourceID="dsCustomerCnt" Style="margin-left: -300px"
+        AllowSorting="False" SkinID="igoogle-summer" OnRowDataBound="Gridview_RowDataBound" Width="1469px">
         <Columns>
             <asp:BoundField HeaderText="REC_ID" DataField="REC_ID" ReadOnly="True" Visible="False" />
             <asp:BoundField HeaderText="DEALER" DataField="HEADING1" ReadOnly="True" ItemStyle-HorizontalAlign="Center" />
@@ -61,7 +61,7 @@
     <asp:HiddenField ID="hfYear" runat="server" Value="" />
     <asp:SqlDataSource ID="dsCustomerCnt" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
         ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>"
-        SelectCommand="SELECT HEADING1, HEADING2, REC_ID, CNT12, CNT11, CNT10, CNT9, CNT8, CNT7, CNT6, CNT5, CNT4, CNT3, CNT2, CNT1, CNT0, (CNT2 - CNT0) DIFF FROM (
+        SelectCommand="SELECT HEADING1, HEADING2, REC_ID, CNT12, CNT11, CNT10, CNT9, CNT8, CNT7, CNT6, CNT5, CNT4, CNT3, CNT2, CNT1, CNT0, (CNT0 - CNT1) DIFF FROM (
                         SELECT HEADING1, HEADING2, HDR.CUST_CNT_HDR_REC_ID REC_ID, A12.CUST_CNT CNT12, A11.CUST_CNT CNT11, A10.CUST_CNT CNT10, A9.CUST_CNT CNT9, A8.CUST_CNT CNT8, A7.CUST_CNT CNT7, A6.CUST_CNT CNT6, A5.CUST_CNT CNT5, A4.CUST_CNT CNT4, A3.CUST_CNT CNT3, A2.CUST_CNT CNT2, A1.CUST_CNT CNT1, A0.CUST_CNT CNT0
                         FROM CUSTOMER_COUNT_HEADINGS HDR
                         LEFT OUTER JOIN (SELECT CUST_CNT, CUST_CNT_REC_ID FROM CUSTOMER_COUNT WHERE (to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = add_months(to_char(to_date(:ENTER_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY'),-12)) A12 ON HDR.CUST_CNT_HDR_REC_ID = A12.CUST_CNT_REC_ID 
@@ -83,7 +83,7 @@
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsCountExportAll" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
         ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>"
-        SelectCommand="SELECT HEADING1, HEADING2, REC_ID, CNT12, CNT11, CNT10, CNT9, CNT8, CNT7, CNT6, CNT5, CNT4, CNT3, CNT2, CNT1, CNT0, (CNT2 - CNT0) DIFF FROM (
+        SelectCommand="SELECT HEADING1, HEADING2, REC_ID, CNT12, CNT11, CNT10, CNT9, CNT8, CNT7, CNT6, CNT5, CNT4, CNT3, CNT2, CNT1, CNT0, (CNT0 - CNT1) DIFF FROM (
                         SELECT HEADING1, HEADING2, HDR.CUST_CNT_HDR_REC_ID REC_ID, A12.CUST_CNT CNT12, A11.CUST_CNT CNT11, A10.CUST_CNT CNT10, A9.CUST_CNT CNT9, A8.CUST_CNT CNT8, A7.CUST_CNT CNT7, A6.CUST_CNT CNT6, A5.CUST_CNT CNT5, A4.CUST_CNT CNT4, A3.CUST_CNT CNT3, A2.CUST_CNT CNT2, A1.CUST_CNT CNT1, A0.CUST_CNT CNT0
                         FROM CUSTOMER_COUNT_HEADINGS HDR
                         LEFT OUTER JOIN (SELECT CUST_CNT, CUST_CNT_REC_ID FROM CUSTOMER_COUNT WHERE (to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = add_months(to_char(to_date(:ENTER_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY'),-12)) A12 ON HDR.CUST_CNT_HDR_REC_ID = A12.CUST_CNT_REC_ID 

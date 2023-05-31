@@ -51,13 +51,13 @@
         <AlternatingRowStyle Font-Underline="False" />
     </asp:GridView>
     <asp:SqlDataSource ID="dsOutsDetail" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
-        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT VW.DEALER, CNT, RATE_OUTS, RATE_ADDS FROM DEALER_CNT_RATES_VW VW, DEALER_INFO D WHERE DEALER_REPORT = :type AND VW.DEALER = D.DEALER UNION ALL SELECT 'TOTAL' AS DEALER, SUM(CNT) CNT, SUM(RATE_OUTS) AS RATE_OUTS, SUM(RATE_ADDS) AS RATE_ADDS FROM DEALER_CNT_RATES_VW VW, DEALER_INFO D WHERE DEALER_REPORT = :type AND VW.DEALER = D.DEALER ">
+        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT VW.DEALER, COALESCE(CNT, 0) CNT, RATE_OUTS, RATE_ADDS FROM DEALER_CNT_RATES_VW VW, DEALER_INFO D WHERE DEALER_REPORT = :type AND VW.DEALER = D.DEALER UNION ALL SELECT 'TOTAL' AS DEALER, COALESCE(SUM(CNT), 0) CNT, SUM(RATE_OUTS) AS RATE_OUTS, SUM(RATE_ADDS) AS RATE_ADDS FROM DEALER_CNT_RATES_VW VW, DEALER_INFO D WHERE DEALER_REPORT = :type AND VW.DEALER = D.DEALER ">
         <SelectParameters>
             <asp:ControlParameter ControlID="ddlType" Name="type" PropertyName="SelectedValue" DefaultValue="CLEC SEC" />
         </SelectParameters>
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsOutsDetailExportAll" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
-        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT VW.DEALER, COALESCE(CNT, 0) CNT, COALESCE(RATE_OUTS, 0.00) RATE_OUTS, COALESCE(RATE_OUTS, 0.00) RATE_OUTS FROM DEALER_CNT_RATES_VW VW, DEALER_INFO D WHERE DEALER_REPORT = :type AND VW.DEALER = D.DEALER UNION ALL SELECT 'TOTAL' AS DEALER, SUM(CNT) CNT, SUM(RATE_OUTS) AS RATE_OUTS, SUM(RATE_ADDS) AS RATE_ADDS FROM DEALER_CNT_RATES_VW VW, DEALER_INFO D WHERE DEALER_REPORT = :type AND VW.DEALER = D.DEALER ">
+        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT DEALER, CNT, TO_CHAR(RATE_OUTS, 'fm99990D00') AS RATE_OUTS, TO_CHAR(RATE_ADDS, 'fm99990D00') AS RATE_ADDS FROM (SELECT VW.DEALER, COALESCE(CNT, 0) CNT, COALESCE(RATE_OUTS, 0.00) RATE_OUTS, COALESCE(RATE_ADDS, 0.00) RATE_ADDS FROM DEALER_CNT_RATES_VW VW, DEALER_INFO D WHERE DEALER_REPORT = :type AND VW.DEALER = D.DEALER UNION ALL SELECT 'TOTAL' AS DEALER,  COALESCE( SUM(CNT), 0) CNT, COALESCE(SUM(RATE_OUTS), 0.00) AS RATE_OUTS, COALESCE(SUM(RATE_ADDS), 0.00) AS RATE_ADDS FROM DEALER_CNT_RATES_VW VW, DEALER_INFO D WHERE DEALER_REPORT = :type AND VW.DEALER = D.DEALER) ORDER BY DEALER">
         <SelectParameters>
             <asp:ControlParameter ControlID="ddlType" Name="type" PropertyName="SelectedValue" DefaultValue="CLEC SEC" />
         </SelectParameters>

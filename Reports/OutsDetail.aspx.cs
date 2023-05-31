@@ -39,6 +39,6 @@ public partial class Reports_OutsDetail : System.Web.UI.Page
         DataView dv = (DataView)dsOutsDetailExportAll.Select(DataSourceSelectArguments.Empty);
         DataTable dt = (DataTable)dv.ToTable();
 
-        Excel.ExportToExcel(dt, ddlTypeOuts.Text + " ADDS Detail Report");
+        Excel.ExportToExcel(dt, ddlTypeOuts.Text + " OUTS Detail Report");
     }
 }

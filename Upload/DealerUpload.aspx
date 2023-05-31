@@ -36,8 +36,8 @@
         }
     </style>
     <p style="margin: 0 auto; max-width: 963px; width: 90%;">
-        <label id="lblTitle" class="pageheader" >Dealer Upload</label>
-        <label id="lblComment" class="body" style="color: red;" >**********  Warning: All users should be logged out of EOM before uploading file.**********  </label>
+        <label id="lblTitle"   class="pageheader">Dealer Upload</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <label id="lblComment" class="body" style="color: red;" >**********   Warning: All users should be logged out of EOM before uploading file.   **********</label>
         <br />
         <br />
     </p>

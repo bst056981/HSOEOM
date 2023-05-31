@@ -31,6 +31,8 @@ namespace Agile.Domain
             "UPDATE CUSTOMER_COUNT SET CUST_CNT_REC_ID = :CUST_CNT_REC_ID, CUST_CNT_DATE = :CUST_CNT_DATE, CUST_CNT = :CUST_CNT WHERE REC_ID = :REC_ID";
         public const string DELETE_CUSTOMER_COUNT = 
             "DELETE FROM CUSTOMER_COUNT WHERE REC_ID = :REC_ID";
+        public const string GET_REC_ID =
+          "SELECT REC_ID_SEQ.NEXTVAL FROM DUAL";
         #endregion
     }
 }

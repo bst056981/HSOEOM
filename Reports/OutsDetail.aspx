@@ -63,7 +63,7 @@
         </SelectParameters>
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsOutsDetailExportAll" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
-        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT DICE, NAME, REASON, PANEL, INACTIVE_DATE, DEALER, START_DATE, REP, SERVICE, BAN, RATE FROM CLEC_OUTS WHERE :typeOuts = 'CLEC' UNION ALL SELECT DICE, NAME, REASON, PANEL, INACTIVE_DATE, DEALER, START_DATE, REP, SERVICE, BAN, RATE FROM ILEC_OUTS WHERE :typeOuts = 'ILEC'">
+        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT DICE, NAME, REASON, PANEL, INACTIVE_DATE, DEALER, START_DATE, REP, SERVICE, BAN, TO_CHAR(RATE, 'fm9990D00') AS RATE FROM CLEC_OUTS WHERE :typeOuts = 'CLEC' UNION ALL SELECT DICE, NAME, REASON, PANEL, INACTIVE_DATE, DEALER, START_DATE, REP, SERVICE, BAN, TO_CHAR(RATE, 'fm9990D00') AS RATE FROM ILEC_OUTS WHERE :typeOuts = 'ILEC'">
         <SelectParameters>
             <asp:ControlParameter ControlID="ddlTypeOuts" Name="typeOuts" PropertyName="SelectedValue" />
         </SelectParameters>
