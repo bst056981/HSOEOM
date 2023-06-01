@@ -187,7 +187,7 @@ public partial class Upload_DealerUpload : System.Web.UI.Page
                 }
                 else
                 {
-                    sql = "SELECT * FROM CUSTOMER C, DEALER_INFO DI WHERE C.DEALER = DI.DEALER AND DEALER_BREAKDOWN = 'Y' AND ADDS_OUTS = 'CLEC' AND to_date(START_DATE, 'MM/DD/YYYY') > to_date('" + _prevEndOfMonth + "', 'MM/DD/YYYY')";
+                    sql = "SELECT * FROM CUSTOMER C, DEALER_INFO DI WHERE C.DEALER = DI.DEALER AND DEALER_BREAKDOWN = 'Y' AND ADDS_OUTS = 'CLEC' AND to_date(START_DATE, 'MM/DD/YYYY') > to_date('" + _prevEndOfMonth + "', 'MM/DD/YYYY') AND (INACTIVE_DATE IS NULL OR INACTIVE_DATE = ' ')";
                     dt = DBHelper.SelectDataTable(sql);
                     if (dt.Rows.Count > 0)
                     {
@@ -230,7 +230,7 @@ public partial class Upload_DealerUpload : System.Web.UI.Page
                     }
                     else
                     {
-                        sql = "SELECT * FROM CUSTOMER C, DEALER_INFO DI WHERE C.DEALER = DI.DEALER AND DEALER_BREAKDOWN = 'Y' AND ADDS_OUTS = 'CLEC' AND to_date(INACTIVE_DATE, 'MM/DD/YYYY') > to_date('" + _prevEndOfMonth + "', 'MM/DD/YYYY')";
+                        sql = "SELECT * FROM CUSTOMER C, DEALER_INFO DI WHERE C.DEALER = DI.DEALER AND DEALER_BREAKDOWN = 'Y' AND ADDS_OUTS = 'CLEC' AND to_date(INACTIVE_DATE, 'MM/DD/YYYY') > to_date('" + _prevEndOfMonth + "', 'MM/DD/YYYY') AND to_date(START_DATE, 'MM/DD/YYYY') <= to_date('" + _prevEndOfMonth + "', 'MM/DD/YYYY')";
                         dt = DBHelper.SelectDataTable(sql);
                         if (dt.Rows.Count > 0)
                         {
@@ -275,7 +275,7 @@ public partial class Upload_DealerUpload : System.Web.UI.Page
                         }
                         else
                         {
-                            sql = "SELECT * FROM CUSTOMER C, DEALER_INFO DI WHERE C.DEALER = DI.DEALER AND DEALER_BREAKDOWN = 'Y' AND ADDS_OUTS = 'ILEC' AND to_date(START_DATE, 'MM/DD/YYYY') > to_date('" + _prevEndOfMonth + "', 'MM/DD/YYYY')";
+                            sql = "SELECT * FROM CUSTOMER C, DEALER_INFO DI WHERE C.DEALER = DI.DEALER AND DEALER_BREAKDOWN = 'Y' AND ADDS_OUTS = 'ILEC' AND to_date(START_DATE, 'MM/DD/YYYY') > to_date('" + _prevEndOfMonth + "', 'MM/DD/YYYY')  AND (INACTIVE_DATE IS NULL OR INACTIVE_DATE = ' ')";
                             dt = DBHelper.SelectDataTable(sql);
                             if (dt.Rows.Count > 0)
                             {
@@ -318,7 +318,7 @@ public partial class Upload_DealerUpload : System.Web.UI.Page
                             }
                             else
                             {
-                                sql = "SELECT * FROM CUSTOMER C, DEALER_INFO DI WHERE C.DEALER = DI.DEALER AND DEALER_BREAKDOWN = 'Y' AND ADDS_OUTS = 'ILEC' AND to_date(INACTIVE_DATE, 'MM/DD/YYYY') > to_date('" + _prevEndOfMonth + "', 'MM/DD/YYYY')";
+                                sql = "SELECT * FROM CUSTOMER C, DEALER_INFO DI WHERE C.DEALER = DI.DEALER AND DEALER_BREAKDOWN = 'Y' AND ADDS_OUTS = 'ILEC' AND to_date(INACTIVE_DATE, 'MM/DD/YYYY') > to_date('" + _prevEndOfMonth + "', 'MM/DD/YYYY') AND to_date(START_DATE, 'MM/DD/YYYY') <= to_date('" + _prevEndOfMonth + "', 'MM/DD/YYYY')";
                                 dt = DBHelper.SelectDataTable(sql);
                                 if (dt.Rows.Count > 0)
                                 {
