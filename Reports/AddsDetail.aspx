@@ -24,6 +24,15 @@
                     <asp:ListItem Value="ILEC">ILEC</asp:ListItem>
                 </asp:DropDownList>
             </td>
+            <th>Year:
+            </th>
+            <td width="700px">
+                <asp:DropDownList ID="ddlDate" runat="server" DataSourceID="dsDate" DataTextField="CUST_CNT_DATE" AutoPostBack="true" OnTextChanged="ddlDate_OnTextChanged"
+                    DataValueField="CUST_CNT_DATE">
+                </asp:DropDownList>
+                <asp:SqlDataSource ID="dsDate" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
+                    ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT DISTINCT CUST_CNT_DATE FROM CUSTOMER_COUNT ORDER BY to_date(CUST_CNT_DATE, 'MM-DD-YYYY') DESC "></asp:SqlDataSource>
+            </td>
             <td align="right">
                 <asp:Button ID="btnCreate" runat="server" Text="Create Report" OnClick="btnCreate_Click" />
             </td>
@@ -60,15 +69,17 @@
         <AlternatingRowStyle Font-Underline="False" />
     </asp:GridView>
     <asp:SqlDataSource ID="dsAddsDetail" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
-        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT CLEC_ADDS_ID AS ID, DICE, NAME, TYPE, PANEL, DEALER, START_DATE, CYCLE, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, RATE FROM CLEC_ADDS WHERE :typeAdds = 'CLEC' UNION ALL SELECT ILEC_ADDS_ID AS ID, DICE, NAME, TYPE, PANEL, DEALER, START_DATE, CYCLE, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, RATE FROM ILEC_ADDS WHERE :typeAdds = 'ILEC'">
+        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT CLEC_ADDS_ID AS ID, DICE, NAME, TYPE, PANEL, DEALER, START_DATE, CYCLE, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, RATE FROM CLEC_ADDS_KEEP WHERE :typeAdds = 'CLEC' AND SUBSTR(TO_CHAR(START_DATE), 1, 2) = SUBSTR(TO_CHAR(:ENTER_DATE), 1, 2) AND SUBSTR(TO_CHAR(START_DATE), 7, 4) = SUBSTR(TO_CHAR(:ENTER_DATE), 7, 4) UNION ALL SELECT ILEC_ADDS_ID AS ID, DICE, NAME, TYPE, PANEL, DEALER, START_DATE, CYCLE, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, RATE FROM ILEC_ADDS_KEEP WHERE :typeAdds = 'ILEC' AND SUBSTR(TO_CHAR(START_DATE), 1, 2) = SUBSTR(TO_CHAR(:ENTER_DATE), 1, 2) AND SUBSTR(TO_CHAR(START_DATE), 7, 4) = SUBSTR(TO_CHAR(:ENTER_DATE), 7, 4) ORDER BY DEALER">
         <SelectParameters>
             <asp:ControlParameter ControlID="ddlTypeAdds" Name="typeAdds" PropertyName="SelectedValue" />
+            <asp:ControlParameter ControlID="ddlDate" Name="ENTER_DATE" PropertyName="SelectedValue" />
         </SelectParameters>
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsAddsDetailExportAll" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
-        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT DICE, NAME, TYPE, PANEL, DEALER, START_DATE, CYCLE, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, TO_CHAR(RATE, 'fm9990D00') AS RATE FROM CLEC_ADDS WHERE :typeAdds = 'CLEC' UNION ALL SELECT DICE, NAME, TYPE, PANEL, DEALER, START_DATE, CYCLE, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, TO_CHAR(RATE, 'fm9990D00') AS RATE FROM ILEC_ADDS WHERE :typeAdds = 'ILEC'">
+        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT DICE, NAME, TYPE, PANEL, DEALER, START_DATE, CYCLE, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, TO_CHAR(RATE, 'fm9990D00') AS RATE FROM CLEC_ADDS_KEEP WHERE :typeAdds = 'CLEC' AND SUBSTR(TO_CHAR(START_DATE), 1, 2) = SUBSTR(TO_CHAR(:ENTER_DATE), 1, 2) AND SUBSTR(TO_CHAR(START_DATE), 7, 4) = SUBSTR(TO_CHAR(:ENTER_DATE), 7, 4) UNION ALL SELECT DICE, NAME, TYPE, PANEL, DEALER, START_DATE, CYCLE, BRANCH, AMOUNT, REP, SERVICE, TECH, BAN, TO_CHAR(RATE, 'fm9990D00') AS RATE FROM ILEC_ADDS_KEEP WHERE :typeAdds = 'ILEC' AND SUBSTR(TO_CHAR(START_DATE), 1, 2) = SUBSTR(TO_CHAR(:ENTER_DATE), 1, 2) AND SUBSTR(TO_CHAR(START_DATE), 7, 4) = SUBSTR(TO_CHAR(:ENTER_DATE), 7, 4) ORDER BY DEALER">
         <SelectParameters>
             <asp:ControlParameter ControlID="ddlTypeAdds" Name="typeAdds" PropertyName="SelectedValue" />
+            <asp:ControlParameter ControlID="ddlDate" Name="ENTER_DATE" PropertyName="SelectedValue" />
         </SelectParameters>
     </asp:SqlDataSource>
 </asp:Content>

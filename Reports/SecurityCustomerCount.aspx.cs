@@ -43,11 +43,16 @@ public partial class Reports_SecurityCustomerCount : System.Web.UI.Page
             string sql = "SELECT DISTINCT CUST_CNT_DATE FROM CUSTOMER_COUNT WHERE to_date(CUST_CNT_DATE, 'MM/DD/YYYY') <=  to_date('" + ddlDate.SelectedValue + "', 'MM/DD/YYYY')  ORDER BY to_date(CUST_CNT_DATE, 'MM/DD/YYYY') DESC";
             DataTable dt = DBHelper.SelectDataTable(sql);
 
-            for (int i = 0; i < dt.Rows.Count; i++)
+            for (int i = 0; i < 13; i++)
             {
-                GridView.Columns[15 - i].HeaderText = dt.Rows[i][0].ToString();
-                if (i >= 12)
-                    i = 99;
+                if (i < dt.Rows.Count)
+                {
+                    GridView.Columns[15 - i].HeaderText = dt.Rows[i][0].ToString();
+                    if (i >= 12)
+                        i = 99;
+                }
+                else
+                { GridView.Columns[15 - i].HeaderText = ""; }
             }
         }
 
@@ -101,23 +106,37 @@ public partial class Reports_SecurityCustomerCount : System.Web.UI.Page
             Thread.CurrentThread.CurrentCulture = culture;
 
             if (_dollorFormat == "Y" && (statusCell.Text == "ILEC Smart Adds" || statusCell.Text == "ILEC Security Adds" || statusCell.Text == "ILEC Smart Outs" || statusCell.Text == "ILEC Security Outs" || statusCell.Text == "ILEC Smart Net" || statusCell.Text == "ILEC Security Net" || statusCell.Text == "ILEC Total Net" ||
-                statusCell.Text == "CLEC Smart Adds" || statusCell.Text == "CLEC Security Adds" || statusCell.Text == "CLEC Smart Outs" || statusCell.Text == "CLEC Security Outs" || statusCell.Text == "CLEC Smart Net" || statusCell.Text == "CLEC Security Net" || statusCell.Text == "CLEC Total Net" || 
+                statusCell.Text == "CLEC Smart Adds" || statusCell.Text == "CLEC Security Adds" || statusCell.Text == "CLEC Smart Outs" || statusCell.Text == "CLEC Security Outs" || statusCell.Text == "CLEC Smart Net" || statusCell.Text == "CLEC Security Net" || statusCell.Text == "CLEC Total Net" ||
                 statusCell.Text == "Smart Total" || statusCell.Text == "Security Total" || statusCell.Text == "Overall Total"))
             {
-                e.Row.Cells[3].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[3].Text));
-                e.Row.Cells[4].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[4].Text));
-                e.Row.Cells[5].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[5].Text));
-                e.Row.Cells[6].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[6].Text));
-                e.Row.Cells[7].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[7].Text));
-                e.Row.Cells[8].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[8].Text));
-                e.Row.Cells[9].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[9].Text));
-                e.Row.Cells[10].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[10].Text));
-                e.Row.Cells[11].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[11].Text));
-                e.Row.Cells[12].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[12].Text));
-                e.Row.Cells[13].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[13].Text));
-                e.Row.Cells[14].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[14].Text));
-                e.Row.Cells[15].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[15].Text));
-                e.Row.Cells[16].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[16].Text));
+                if (!string.IsNullOrEmpty(e.Row.Cells[3].Text) && e.Row.Cells[3].Text.All(char.IsDigit))
+                    e.Row.Cells[3].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[3].Text));
+                if (!string.IsNullOrEmpty(e.Row.Cells[4].Text) && e.Row.Cells[4].Text.All(char.IsDigit))
+                    e.Row.Cells[4].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[4].Text));
+                if (!string.IsNullOrEmpty(e.Row.Cells[5].Text) && e.Row.Cells[5].Text.All(char.IsDigit))
+                    e.Row.Cells[5].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[5].Text));
+                if (!string.IsNullOrEmpty(e.Row.Cells[6].Text) && e.Row.Cells[6].Text.All(char.IsDigit))
+                    e.Row.Cells[6].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[6].Text));
+                if (!string.IsNullOrEmpty(e.Row.Cells[7].Text) && e.Row.Cells[7].Text.All(char.IsDigit))
+                    e.Row.Cells[7].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[7].Text));
+                if (!string.IsNullOrEmpty(e.Row.Cells[8].Text) && e.Row.Cells[8].Text.All(char.IsDigit))
+                    e.Row.Cells[8].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[8].Text));
+                if (!string.IsNullOrEmpty(e.Row.Cells[9].Text) && e.Row.Cells[9].Text.All(char.IsDigit))
+                    e.Row.Cells[9].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[9].Text));
+                if (!string.IsNullOrEmpty(e.Row.Cells[10].Text) && e.Row.Cells[10].Text.All(char.IsDigit))
+                    e.Row.Cells[10].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[10].Text));
+                if (!string.IsNullOrEmpty(e.Row.Cells[11].Text) && e.Row.Cells[11].Text.All(char.IsDigit))
+                    e.Row.Cells[11].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[11].Text));
+                if (!string.IsNullOrEmpty(e.Row.Cells[12].Text) && e.Row.Cells[12].Text.All(char.IsDigit))
+                    e.Row.Cells[12].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[12].Text));
+                if (!string.IsNullOrEmpty(e.Row.Cells[13].Text) && e.Row.Cells[13].Text.All(char.IsDigit))
+                    e.Row.Cells[13].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[13].Text));
+                if (!string.IsNullOrEmpty(e.Row.Cells[14].Text) && e.Row.Cells[14].Text.All(char.IsDigit))
+                    e.Row.Cells[14].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[14].Text));
+                if (!string.IsNullOrEmpty(e.Row.Cells[15].Text) && e.Row.Cells[15].Text.All(char.IsDigit))
+                    e.Row.Cells[15].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[15].Text));
+                if (!string.IsNullOrEmpty(e.Row.Cells[16].Text) && e.Row.Cells[16].Text.All(char.IsDigit))
+                    e.Row.Cells[16].Text = String.Format("{0:C2}", Convert.ToDecimal(e.Row.Cells[16].Text));
             }
         }
     }
@@ -129,7 +148,7 @@ public partial class Reports_SecurityCustomerCount : System.Web.UI.Page
     {
         DataView dv = (DataView)dsCountExportAll.Select(DataSourceSelectArguments.Empty);
         DataTable dt = (DataTable)dv.ToTable();
-        dt.Columns.Remove("REC_ID");               
+        dt.Columns.Remove("REC_ID");
         dt.Columns["HEADING1"].ColumnName = "DEALER";
         dt.Columns["HEADING2"].ColumnName = "CLEC ACCOUNTS";
 
@@ -137,11 +156,16 @@ public partial class Reports_SecurityCustomerCount : System.Web.UI.Page
         string sql = "SELECT DISTINCT CUST_CNT_DATE FROM CUSTOMER_COUNT WHERE to_date(CUST_CNT_DATE, 'MM/DD/YYYY') <=  to_date('" + ddlDate.SelectedValue + "', 'MM/DD/YYYY')  ORDER BY to_date(CUST_CNT_DATE, 'MM/DD/YYYY') DESC";
         DataTable dt1 = DBHelper.SelectDataTable(sql);
 
-        for (int i = 0; i < dt.Rows.Count; i++)
+        for (int i = 0; i < 13; i++)
         {
-            dt.Columns["CNT" + i].ColumnName = dt1.Rows[i][0].ToString();
-            if (i >= 12)
-                i = 99;
+            if (i < dt1.Rows.Count)
+            {
+                dt.Columns["CNT" + i].ColumnName = dt1.Rows[i][0].ToString();
+                if (i >= 12)
+                    i = 99;
+            }
+            else
+            { dt.Columns.Remove("CNT" + i); }
         }
 
         Excel.ExportToExcelCenter(dt, "Security Customer Count Report");

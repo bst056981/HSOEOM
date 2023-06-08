@@ -24,6 +24,15 @@
                     <asp:ListItem Value="ILEC">ILEC</asp:ListItem>
                 </asp:DropDownList>
             </td>
+            <th>Year:
+            </th>
+            <td width="700px">
+                <asp:DropDownList ID="ddlDate" runat="server" DataSourceID="dsDate" DataTextField="CUST_CNT_DATE" AutoPostBack="true" OnTextChanged="ddlDate_OnTextChanged"
+                    DataValueField="CUST_CNT_DATE">
+                </asp:DropDownList>
+                <asp:SqlDataSource ID="dsDate" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
+                    ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT DISTINCT CUST_CNT_DATE FROM CUSTOMER_COUNT ORDER BY to_date(CUST_CNT_DATE, 'MM-DD-YYYY') DESC "></asp:SqlDataSource>
+            </td>
             <td align="right">
                 <asp:Button ID="btnCreate" runat="server" Text="Create Report" OnClick="btnCreate_Click" />
             </td>
@@ -57,15 +66,17 @@
         <AlternatingRowStyle Font-Underline="False" />
     </asp:GridView>
     <asp:SqlDataSource ID="dsOutsDetail" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
-        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT CLEC_OUTS_ID AS ID, DICE, NAME, REASON, PANEL, INACTIVE_DATE, DEALER, START_DATE, REP, SERVICE, BAN, RATE FROM CLEC_OUTS WHERE :typeOuts = 'CLEC' UNION ALL SELECT ILEC_OUTS_ID AS ID, DICE, NAME, REASON, PANEL, INACTIVE_DATE, DEALER, START_DATE, REP, SERVICE, BAN, RATE FROM ILEC_OUTS WHERE :typeOuts = 'ILEC'">
+        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT CLEC_OUTS_ID AS ID, DICE, NAME, REASON, PANEL, INACTIVE_DATE, DEALER, START_DATE, REP, SERVICE, BAN, RATE FROM CLEC_OUTS_KEEP WHERE :typeOuts = 'CLEC' AND SUBSTR(TO_CHAR(INACTIVE_DATE), 1, 2) = SUBSTR(TO_CHAR(:ENTER_DATE), 1, 2) AND SUBSTR(TO_CHAR(INACTIVE_DATE), 7, 4) = SUBSTR(TO_CHAR(:ENTER_DATE), 7, 4) UNION ALL SELECT ILEC_OUTS_ID AS ID, DICE, NAME, REASON, PANEL, INACTIVE_DATE, DEALER, START_DATE, REP, SERVICE, BAN, RATE FROM ILEC_OUTS_KEEP WHERE :typeOuts = 'ILEC' AND SUBSTR(TO_CHAR(INACTIVE_DATE), 1, 2) = SUBSTR(TO_CHAR(:ENTER_DATE), 1, 2) AND SUBSTR(TO_CHAR(INACTIVE_DATE), 7, 4) = SUBSTR(TO_CHAR(:ENTER_DATE), 7, 4) ORDER BY DEALER, REASON">
         <SelectParameters>
             <asp:ControlParameter ControlID="ddlTypeOuts" Name="typeOuts" PropertyName="SelectedValue" />
+            <asp:ControlParameter ControlID="ddlDate" Name="ENTER_DATE" PropertyName="SelectedValue" />
         </SelectParameters>
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsOutsDetailExportAll" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
-        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT DICE, NAME, REASON, PANEL, INACTIVE_DATE, DEALER, START_DATE, REP, SERVICE, BAN, TO_CHAR(RATE, 'fm9990D00') AS RATE FROM CLEC_OUTS WHERE :typeOuts = 'CLEC' UNION ALL SELECT DICE, NAME, REASON, PANEL, INACTIVE_DATE, DEALER, START_DATE, REP, SERVICE, BAN, TO_CHAR(RATE, 'fm9990D00') AS RATE FROM ILEC_OUTS WHERE :typeOuts = 'ILEC'">
+        ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT DICE, NAME, REASON, PANEL, INACTIVE_DATE, DEALER, START_DATE, REP, SERVICE, BAN, TO_CHAR(RATE, 'fm9990D00') AS RATE FROM CLEC_OUTS_KEEP WHERE :typeOuts = 'CLEC' AND SUBSTR(TO_CHAR(INACTIVE_DATE), 1, 2) = SUBSTR(TO_CHAR(:ENTER_DATE), 1, 2) AND SUBSTR(TO_CHAR(INACTIVE_DATE), 7, 4) = SUBSTR(TO_CHAR(:ENTER_DATE), 7, 4) UNION ALL SELECT DICE, NAME, REASON, PANEL, INACTIVE_DATE, DEALER, START_DATE, REP, SERVICE, BAN, TO_CHAR(RATE, 'fm9990D00') AS RATE FROM ILEC_OUTS_KEEP WHERE :typeOuts = 'ILEC' AND SUBSTR(TO_CHAR(INACTIVE_DATE), 1, 2) = SUBSTR(TO_CHAR(:ENTER_DATE), 1, 2) AND SUBSTR(TO_CHAR(INACTIVE_DATE), 7, 4) = SUBSTR(TO_CHAR(:ENTER_DATE), 7, 4) ORDER BY DEALER, REASON">
         <SelectParameters>
             <asp:ControlParameter ControlID="ddlTypeOuts" Name="typeOuts" PropertyName="SelectedValue" />
+            <asp:ControlParameter ControlID="ddlDate" Name="ENTER_DATE" PropertyName="SelectedValue" />
         </SelectParameters>
     </asp:SqlDataSource>
 </asp:Content>

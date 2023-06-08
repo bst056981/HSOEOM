@@ -18,9 +18,6 @@
                 <asp:SqlDataSource ID="dsDate" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
                     ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT DISTINCT CUST_CNT_DATE FROM CUSTOMER_COUNT ORDER BY to_date(CUST_CNT_DATE, 'MM-DD-YYYY') DESC "></asp:SqlDataSource>
             </td>
-           <%-- <td width="100px">
-                <asp:Button Text="Update" OnClick="OnUpdate" BackColor="Orange" runat="server" />
-            </td>--%>
             <td>
                 <asp:Button ID="btnCreate" runat="server" Text="Create Report" OnClick="btnCreate_Click" />
             </td>
@@ -76,7 +73,7 @@
                         LEFT OUTER JOIN (SELECT CUST_CNT, CUST_CNT_REC_ID FROM CUSTOMER_COUNT WHERE (to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = add_months(to_char(to_date(:ENTER_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY'),-3)) A3 ON HDR.CUST_CNT_HDR_REC_ID = A3.CUST_CNT_REC_ID 
                         LEFT OUTER JOIN (SELECT CUST_CNT, CUST_CNT_REC_ID FROM CUSTOMER_COUNT WHERE (to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = add_months(to_char(to_date(:ENTER_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY'),-2)) A2 ON HDR.CUST_CNT_HDR_REC_ID = A2.CUST_CNT_REC_ID 
                         LEFT OUTER JOIN (SELECT CUST_CNT, CUST_CNT_REC_ID FROM CUSTOMER_COUNT WHERE (to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = add_months(to_char(to_date(:ENTER_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY'),-1)) A1 ON HDR.CUST_CNT_HDR_REC_ID = A1.CUST_CNT_REC_ID 
-                        LEFT OUTER JOIN (SELECT CUST_CNT, CUST_CNT_REC_ID FROM CUSTOMER_COUNT WHERE (to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = add_months(to_char(to_date(:ENTER_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY'),-0)) A0 ON HDR.CUST_CNT_HDR_REC_ID = A0.CUST_CNT_REC_ID)ORDER BY REC_ID">
+                        LEFT OUTER JOIN (SELECT CUST_CNT, CUST_CNT_REC_ID FROM CUSTOMER_COUNT WHERE (to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = add_months(to_char(to_date(:ENTER_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY'),-0)) A0 ON HDR.CUST_CNT_HDR_REC_ID = A0.CUST_CNT_REC_ID) WHERE REC_ID <> '100000' ORDER BY REC_ID">
         <SelectParameters>
             <asp:ControlParameter ControlID="ddlDate" Name="ENTER_DATE" PropertyName="SelectedValue" />
         </SelectParameters>
@@ -98,7 +95,7 @@
                         LEFT OUTER JOIN (SELECT CUST_CNT, CUST_CNT_REC_ID FROM CUSTOMER_COUNT WHERE (to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = add_months(to_char(to_date(:ENTER_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY'),-3)) A3 ON HDR.CUST_CNT_HDR_REC_ID = A3.CUST_CNT_REC_ID 
                         LEFT OUTER JOIN (SELECT CUST_CNT, CUST_CNT_REC_ID FROM CUSTOMER_COUNT WHERE (to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = add_months(to_char(to_date(:ENTER_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY'),-2)) A2 ON HDR.CUST_CNT_HDR_REC_ID = A2.CUST_CNT_REC_ID 
                         LEFT OUTER JOIN (SELECT CUST_CNT, CUST_CNT_REC_ID FROM CUSTOMER_COUNT WHERE (to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = add_months(to_char(to_date(:ENTER_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY'),-1)) A1 ON HDR.CUST_CNT_HDR_REC_ID = A1.CUST_CNT_REC_ID 
-                        LEFT OUTER JOIN (SELECT CUST_CNT, CUST_CNT_REC_ID FROM CUSTOMER_COUNT WHERE (to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = add_months(to_char(to_date(:ENTER_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY'),-0)) A0 ON HDR.CUST_CNT_HDR_REC_ID = A0.CUST_CNT_REC_ID)ORDER BY REC_ID">
+                        LEFT OUTER JOIN (SELECT CUST_CNT, CUST_CNT_REC_ID FROM CUSTOMER_COUNT WHERE (to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = add_months(to_char(to_date(:ENTER_DATE, 'MM/DD/YYYY'), 'DD-MON-YYYY'),-0)) A0 ON HDR.CUST_CNT_HDR_REC_ID = A0.CUST_CNT_REC_ID) WHERE REC_ID <> '100000' ORDER BY REC_ID">
         <SelectParameters>
             <asp:ControlParameter ControlID="ddlDate" Name="ENTER_DATE" PropertyName="SelectedValue" />
         </SelectParameters>

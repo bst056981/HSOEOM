@@ -21,6 +21,10 @@ public partial class Reports_AddsDetail : System.Web.UI.Page
     {
         GridView1.DataBind();
     }
+    protected void ddlDate_OnTextChanged(object sender, EventArgs e)
+    {
+        GridView1.DataBind();
+    }
 
     protected void ddlAddAll(object sender, EventArgs e)
     {

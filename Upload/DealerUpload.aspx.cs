@@ -17,7 +17,6 @@ public partial class Upload_DealerUpload : System.Web.UI.Page
 {
     protected string _endOfMonth = "";
     protected string _prevEndOfMonth = "";
-    protected string _prev2EndOfMonth = "";
     protected int _total1 = 0;
     protected int _total2 = 0;
     protected int _total3 = 0;
@@ -55,6 +54,9 @@ public partial class Upload_DealerUpload : System.Web.UI.Page
         {
             string fileName = saveFile(uploadFile.PostedFile, WebConfigurationManager.AppSettings["DealerUpload"].ToString());
             string errors = UploadTempTable(fileName);
+            //********************* TESTING ****************
+            //errors = "correctly";
+            //********************* TESTING ****************
             if (errors.Contains("correctly"))
             {
                 lblSuccess.Text = errors;
@@ -117,6 +119,9 @@ public partial class Upload_DealerUpload : System.Web.UI.Page
         else
         {
             string sql = "TRUNCATE TABLE CUSTOMER";
+            //********************* TESTING ****************
+            //sql = "TRUNCATE TABLE CUSTOMER_test";
+            //********************* TESTING ****************
             DataTable dt = DBHelper.SelectDataTable(sql);
             if (dt.Rows.Count != 0)
             {
@@ -124,6 +129,7 @@ public partial class Upload_DealerUpload : System.Web.UI.Page
             }
             else
             {
+                //********************* TESTING  comment out below code ****************
                 for (int i = 0; i < dtExcelData.Rows.Count; i++)
                 {
                     if (!String.IsNullOrEmpty(dtExcelData.Rows[i][1].ToString()))
@@ -167,17 +173,26 @@ public partial class Upload_DealerUpload : System.Web.UI.Page
                         errors = cntRec + " Customers were loaded correctly!";
                     }
                 }
+                //********************* TESTING comment out above code ****************
 
                 DateTime today = DateTime.Today;
+
+                //********************* TESTING  ****************
+                //today = today.AddDays(-10);
+                //********************* TESTING  ****************
+
                 _endOfMonth = new DateTime(today.Year, today.Month, DateTime.DaysInMonth(today.Year, today.Month)).ToShortDateString();
                 _prevEndOfMonth = new DateTime(today.Year, today.Month - 1, DateTime.DaysInMonth(today.Year, today.Month - 1)).ToShortDateString();
-                _prev2EndOfMonth = new DateTime(today.Year, today.Month - 2, DateTime.DaysInMonth(today.Year, today.Month - 2)).ToShortDateString();
 
                 _endOfMonth = Convert.ToDateTime(_endOfMonth).ToString("MM/dd/yyyy");
                 _prevEndOfMonth = Convert.ToDateTime(_prevEndOfMonth).ToString("MM/dd/yyyy");
-                _prev2EndOfMonth = Convert.ToDateTime(_prev2EndOfMonth).ToString("MM/dd/yyyy");
+
+                //************* All ADDS/OUTS detail records were requested to be kept after the system was built and so to keep from redoing the Breakdown, Breakdown vs Dealer, Dealer Amounts & Security Customer Count reports a KEEP table was created for each table CLEC/ILEC ADDS/OUTS table.
+                //************* The CLEC_ADDS table only contains the current months data, so when the upload is run the table is truncated. The CLEC_ADDS_KEEP table contains all records, so when the upload is run the current months data is deleted and reinsert the records on the spreedsheet. 
 
 
+                sql = "DELETE FROM CLEC_ADDS_KEEP WHERE to_date(START_DATE, 'MM/DD/YYYY') > to_date('" + _prevEndOfMonth + "', 'MM/DD/YYYY')";
+                dt = DBHelper.SelectDataTable(sql);
 
                 sql = "TRUNCATE TABLE CLEC_ADDS";
                 dt = DBHelper.SelectDataTable(sql);
@@ -193,34 +208,40 @@ public partial class Upload_DealerUpload : System.Web.UI.Page
                     {
                         ClecAdds ca = new ClecAdds();
                         ClecAddsImpl cai = new ClecAddsImpl();
+                        ClecAddsKeep cak = new ClecAddsKeep();
+                        ClecAddsKeepImpl caki = new ClecAddsKeepImpl();
 
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
-                            ca.ClecAddsId = DBHelper.SelectDecimal(ClecAdds.GET_CLEC_ADDS_ID).ToString();
-                            ca.Dice = dt.Rows[i][1].ToString().Trim();
-                            ca.Name = dt.Rows[i][2].ToString().Trim();
-                            ca.Dealer = dt.Rows[i][3].ToString().Trim();
+                            ca.ClecAddsId = cak.ClecAddsId = DBHelper.SelectDecimal(ClecAdds.GET_CLEC_ADDS_ID).ToString();
+                            ca.Dice = cak.Dice = dt.Rows[i][1].ToString().Trim();
+                            ca.Name = cak.Name = dt.Rows[i][2].ToString().Trim();
+                            ca.Dealer = cak.Dealer = dt.Rows[i][3].ToString().Trim();
                             if (!String.IsNullOrEmpty(dt.Rows[i][4].ToString()))
                             {
                                 DateTime dat = DateTime.Parse(dt.Rows[i][4].ToString());
-                                ca.StartDate = dat.ToString("MM/dd/yyyy");
+                                ca.StartDate = cak.StartDate = dat.ToString("MM/dd/yyyy");
                             }
-                            else { ca.StartDate = ""; }
-                            ca.Type = dt.Rows[i][8].ToString().Trim();
-                            ca.Panel = dt.Rows[i][9].ToString().Trim();
-                            ca.Cycle = dt.Rows[i][10].ToString().Trim();
-                            ca.Branch = dt.Rows[i][11].ToString().Trim();
-                            ca.Amount = dt.Rows[i][12].ToString().Trim();
-                            ca.Rep = dt.Rows[i][13].ToString().Trim();
-                            ca.Service = dt.Rows[i][14].ToString().Trim();
-                            ca.Tech = dt.Rows[i][15].ToString().Trim();
-                            ca.Ban = dt.Rows[i][16].ToString().Trim();
-                            ca.Rate = dt.Rows[i][17].ToString().Trim();
-                            ca.EnteredDate = DateTime.Now.ToString("MM/dd/yyyy");
-                            ca.EnteredId = Session["userId"].ToString();
+                            else { ca.StartDate = cak.StartDate = ""; }
+                            ca.Type = cak.Type = dt.Rows[i][8].ToString().Trim();
+                            ca.Panel = cak.Panel = dt.Rows[i][9].ToString().Trim();
+                            ca.Cycle = cak.Cycle = dt.Rows[i][10].ToString().Trim();
+                            ca.Branch = cak.Branch = dt.Rows[i][11].ToString().Trim();
+                            ca.Amount = cak.Amount = dt.Rows[i][12].ToString().Trim();
+                            ca.Rep = cak.Rep = dt.Rows[i][13].ToString().Trim();
+                            ca.Service = cak.Service = dt.Rows[i][14].ToString().Trim();
+                            ca.Tech = cak.Tech = dt.Rows[i][15].ToString().Trim();
+                            ca.Ban = cak.Ban = dt.Rows[i][16].ToString().Trim();
+                            ca.Rate = cak.Rate = dt.Rows[i][17].ToString().Trim();
+                            ca.EnteredDate = cak.EnteredDate = DateTime.Now.ToString("MM/dd/yyyy");
+                            ca.EnteredId = cak.EnteredId = Session["userId"].ToString();
                             cai.Insert(ca);
+                            caki.Insert(cak);
                         }
                     }
+
+                    sql = "DELETE FROM CLEC_OUTS_KEEP WHERE to_date(INACTIVE_DATE, 'MM/DD/YYYY') > to_date('" + _prevEndOfMonth + "', 'MM/DD/YYYY')";
+                    dt = DBHelper.SelectDataTable(sql);
 
                     sql = "TRUNCATE TABLE CLEC_OUTS";
                     dt = DBHelper.SelectDataTable(sql);
@@ -236,36 +257,42 @@ public partial class Upload_DealerUpload : System.Web.UI.Page
                         {
                             ClecOuts co = new ClecOuts();
                             ClecOutsImpl coi = new ClecOutsImpl();
+                            ClecOutsKeep coK = new ClecOutsKeep();
+                            ClecOutsKeepImpl coKi = new ClecOutsKeepImpl();
 
                             for (int i = 0; i < dt.Rows.Count; i++)
                             {
-                                co.ClecOutsId = DBHelper.SelectDecimal(ClecOuts.GET_CLEC_OUTS_ID).ToString();
-                                co.Dice = dt.Rows[i][1].ToString().Trim();
-                                co.Name = dt.Rows[i][2].ToString().Trim();
-                                co.Dealer = dt.Rows[i][3].ToString().Trim();
+                                co.ClecOutsId = coK.ClecOutsId = DBHelper.SelectDecimal(ClecOuts.GET_CLEC_OUTS_ID).ToString();
+                                co.Dice = coK.Dice = dt.Rows[i][1].ToString().Trim();
+                                co.Name = coK.Name = dt.Rows[i][2].ToString().Trim();
+                                co.Dealer = coK.Dealer = dt.Rows[i][3].ToString().Trim();
                                 if (!String.IsNullOrEmpty(dt.Rows[i][4].ToString()))
                                 {
                                     DateTime dat = DateTime.Parse(dt.Rows[i][4].ToString());
-                                    co.StartDate = dat.ToString("MM/dd/yyyy");
+                                    co.StartDate = coK.StartDate = dat.ToString("MM/dd/yyyy");
                                 }
-                                else { co.StartDate = ""; }
+                                else { co.StartDate = coK.StartDate = ""; }
                                 if (!String.IsNullOrEmpty(dt.Rows[i][5].ToString()))
                                 {
                                     DateTime dat = DateTime.Parse(dt.Rows[i][5].ToString());
-                                    co.InactiveDate = dat.ToString("MM/dd/yyyy");
+                                    co.InactiveDate = coK.InactiveDate = dat.ToString("MM/dd/yyyy");
                                 }
-                                else { co.InactiveDate = ""; }
-                                co.Panel = dt.Rows[i][9].ToString().Trim();
-                                co.Rep = dt.Rows[i][13].ToString().Trim();
-                                co.Service = dt.Rows[i][14].ToString().Trim();
-                                co.Ban = dt.Rows[i][16].ToString().Trim();
-                                co.Rate = dt.Rows[i][17].ToString().Trim();
-                                co.Reason = dt.Rows[i][18].ToString().Trim();
-                                co.EnteredDate = DateTime.Now.ToString("MM/dd/yyyy");
-                                co.EnteredId = Session["userId"].ToString();
+                                else { co.InactiveDate = coK.InactiveDate = ""; }
+                                co.Panel = coK.Panel = dt.Rows[i][9].ToString().Trim();
+                                co.Rep = coK.Rep = dt.Rows[i][13].ToString().Trim();
+                                co.Service = coK.Service = dt.Rows[i][14].ToString().Trim();
+                                co.Ban = coK.Ban = dt.Rows[i][16].ToString().Trim();
+                                co.Rate = coK.Rate = dt.Rows[i][17].ToString().Trim();
+                                co.Reason = coK.Reason = dt.Rows[i][18].ToString().Trim();
+                                co.EnteredDate = coK.EnteredDate = DateTime.Now.ToString("MM/dd/yyyy");
+                                co.EnteredId = coK.EnteredId = Session["userId"].ToString();
                                 coi.Insert(co);
+                                coKi.Insert(coK);
                             }
                         }
+
+                        sql = "DELETE FROM ILEC_ADDS_KEEP WHERE to_date(START_DATE, 'MM/DD/YYYY') > to_date('" + _prevEndOfMonth + "', 'MM/DD/YYYY')";
+                        dt = DBHelper.SelectDataTable(sql);
 
                         sql = "TRUNCATE TABLE ILEC_ADDS";
                         dt = DBHelper.SelectDataTable(sql);
@@ -281,34 +308,40 @@ public partial class Upload_DealerUpload : System.Web.UI.Page
                             {
                                 IlecAdds ia = new IlecAdds();
                                 IlecAddsImpl iai = new IlecAddsImpl();
+                                IlecAddsKeep iaK = new IlecAddsKeep();
+                                IlecAddsKeepImpl iaKi = new IlecAddsKeepImpl();
 
                                 for (int i = 0; i < dt.Rows.Count; i++)
                                 {
-                                    ia.IlecAddsId = DBHelper.SelectDecimal(IlecAdds.GET_ILEC_ADDS_ID).ToString();
-                                    ia.Dice = dt.Rows[i][1].ToString().Trim();
-                                    ia.Name = dt.Rows[i][2].ToString().Trim();
-                                    ia.Dealer = dt.Rows[i][3].ToString().Trim();
+                                    ia.IlecAddsId = iaK.IlecAddsId = DBHelper.SelectDecimal(IlecAdds.GET_ILEC_ADDS_ID).ToString();
+                                    ia.Dice = iaK.Dice = dt.Rows[i][1].ToString().Trim();
+                                    ia.Name = iaK.Name = dt.Rows[i][2].ToString().Trim();
+                                    ia.Dealer = iaK.Dealer = dt.Rows[i][3].ToString().Trim();
                                     if (!String.IsNullOrEmpty(dt.Rows[i][4].ToString()))
                                     {
                                         DateTime dat = DateTime.Parse(dt.Rows[i][4].ToString());
-                                        ia.StartDate = dat.ToString("MM/dd/yyyy");
+                                        ia.StartDate = iaK.StartDate = dat.ToString("MM/dd/yyyy");
                                     }
-                                    else { ia.StartDate = ""; }
-                                    ia.Type = dt.Rows[i][8].ToString().Trim();
-                                    ia.Panel = dt.Rows[i][9].ToString().Trim();
-                                    ia.Cycle = dt.Rows[i][10].ToString().Trim();
-                                    ia.Branch = dt.Rows[i][11].ToString().Trim();
-                                    ia.Amount = dt.Rows[i][12].ToString().Trim();
-                                    ia.Rep = dt.Rows[i][13].ToString().Trim();
-                                    ia.Service = dt.Rows[i][14].ToString().Trim();
-                                    ia.Tech = dt.Rows[i][15].ToString().Trim();
-                                    ia.Ban = dt.Rows[i][16].ToString().Trim();
-                                    ia.Rate = dt.Rows[i][17].ToString().Trim();
-                                    ia.EnteredDate = DateTime.Now.ToString("MM/dd/yyyy");
-                                    ia.EnteredId = Session["userId"].ToString();
+                                    else { ia.StartDate = iaK.StartDate = ""; }
+                                    ia.Type = iaK.Type = dt.Rows[i][8].ToString().Trim();
+                                    ia.Panel = iaK.Panel = dt.Rows[i][9].ToString().Trim();
+                                    ia.Cycle = iaK.Cycle = dt.Rows[i][10].ToString().Trim();
+                                    ia.Branch = iaK.Branch = dt.Rows[i][11].ToString().Trim();
+                                    ia.Amount = iaK.Amount = dt.Rows[i][12].ToString().Trim();
+                                    ia.Rep = iaK.Rep = dt.Rows[i][13].ToString().Trim();
+                                    ia.Service = iaK.Service = dt.Rows[i][14].ToString().Trim();
+                                    ia.Tech = iaK.Tech = dt.Rows[i][15].ToString().Trim();
+                                    ia.Ban = iaK.Ban = dt.Rows[i][16].ToString().Trim();
+                                    ia.Rate = iaK.Rate = dt.Rows[i][17].ToString().Trim();
+                                    ia.EnteredDate = iaK.EnteredDate = DateTime.Now.ToString("MM/dd/yyyy");
+                                    ia.EnteredId = iaK.EnteredId = Session["userId"].ToString();
                                     iai.Insert(ia);
+                                    iaKi.Insert(iaK);
                                 }
                             }
+
+                            sql = "DELETE FROM ILEC_OUTS_KEEP WHERE to_date(INACTIVE_DATE, 'MM/DD/YYYY') > to_date('" + _prevEndOfMonth + "', 'MM/DD/YYYY')";
+                            dt = DBHelper.SelectDataTable(sql);
 
                             sql = "TRUNCATE TABLE ILEC_OUTS";
                             dt = DBHelper.SelectDataTable(sql);
@@ -324,34 +357,37 @@ public partial class Upload_DealerUpload : System.Web.UI.Page
                                 {
                                     IlecOuts io = new IlecOuts();
                                     IlecOutsImpl ioi = new IlecOutsImpl();
+                                    IlecOutsKeep ioK = new IlecOutsKeep();
+                                    IlecOutsKeepImpl ioKi = new IlecOutsKeepImpl();
 
                                     for (int i = 0; i < dt.Rows.Count; i++)
                                     {
-                                        io.IlecOutsId = DBHelper.SelectDecimal(IlecOuts.GET_ILEC_OUTS_ID).ToString();
-                                        io.Dice = dt.Rows[i][1].ToString().Trim();
-                                        io.Name = dt.Rows[i][2].ToString().Trim();
-                                        io.Dealer = dt.Rows[i][3].ToString().Trim();
+                                        io.IlecOutsId = ioK.IlecOutsId = DBHelper.SelectDecimal(IlecOuts.GET_ILEC_OUTS_ID).ToString();
+                                        io.Dice = ioK.Dice = dt.Rows[i][1].ToString().Trim();
+                                        io.Name = ioK.Name = dt.Rows[i][2].ToString().Trim();
+                                        io.Dealer = ioK.Dealer = dt.Rows[i][3].ToString().Trim();
                                         if (!String.IsNullOrEmpty(dt.Rows[i][4].ToString()))
                                         {
                                             DateTime dat = DateTime.Parse(dt.Rows[i][4].ToString());
-                                            io.StartDate = dat.ToString("MM/dd/yyyy");
+                                            io.StartDate = ioK.StartDate = dat.ToString("MM/dd/yyyy");
                                         }
-                                        else { io.StartDate = ""; }
+                                        else { io.StartDate = ioK.StartDate = ""; }
                                         if (!String.IsNullOrEmpty(dt.Rows[i][5].ToString()))
                                         {
                                             DateTime dat = DateTime.Parse(dt.Rows[i][5].ToString());
-                                            io.InactiveDate = dat.ToString("MM/dd/yyyy");
+                                            io.InactiveDate = ioK.InactiveDate = dat.ToString("MM/dd/yyyy");
                                         }
-                                        else { io.InactiveDate = ""; }
-                                        io.Panel = dt.Rows[i][9].ToString().Trim();
-                                        io.Rep = dt.Rows[i][13].ToString().Trim();
-                                        io.Service = dt.Rows[i][14].ToString().Trim();
-                                        io.Ban = dt.Rows[i][16].ToString().Trim();
-                                        io.Rate = dt.Rows[i][17].ToString().Trim();
-                                        io.Reason = dt.Rows[i][18].ToString().Trim();
-                                        io.EnteredDate = DateTime.Now.ToString("MM/dd/yyyy");
-                                        io.EnteredId = Session["userId"].ToString();
+                                        else { io.InactiveDate = ioK.InactiveDate = ""; }
+                                        io.Panel = ioK.Panel = dt.Rows[i][9].ToString().Trim();
+                                        io.Rep = ioK.Rep = dt.Rows[i][13].ToString().Trim();
+                                        io.Service = ioK.Service = dt.Rows[i][14].ToString().Trim();
+                                        io.Ban = ioK.Ban = dt.Rows[i][16].ToString().Trim();
+                                        io.Rate = ioK.Rate = dt.Rows[i][17].ToString().Trim();
+                                        io.Reason = ioK.Reason = dt.Rows[i][18].ToString().Trim();
+                                        io.EnteredDate = ioK.EnteredDate = DateTime.Now.ToString("MM/dd/yyyy");
+                                        io.EnteredId = ioK.EnteredId = Session["userId"].ToString();
                                         ioi.Insert(io);
+                                        ioKi.Insert(ioK);
                                     }
                                 }
                                 sql = "DELETE FROM CUSTOMER_COUNT WHERE to_date(CUST_CNT_DATE, 'MM/DD/YYYY') = to_date('" + _endOfMonth + "', 'MM/DD/YYYY')";
@@ -455,7 +491,7 @@ public partial class Upload_DealerUpload : System.Web.UI.Page
         cc.CustCntRecId = "103900";
         cci.Insert(cc);
 
-        sql = "(SELECT (CURR - PREV) CNT FROM (SELECT DISTINCT (SELECT sum(CUST_CNT) CUST_CNT FROM CUSTOMER_COUNT WHERE(CUST_CNT_REC_ID = '100100' OR CUST_CNT_REC_ID = '100200' OR CUST_CNT_REC_ID = '100400' OR CUST_CNT_REC_ID = '100500') AND((to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = (to_char(to_date('" + _prev2EndOfMonth + "', 'MM-DD-YYYY'), 'DD-MON-YYYY'))) GROUP BY CUST_CNT_DATE) AS PREV, (SELECT sum(CUST_CNT) CUST_CNT FROM CUSTOMER_COUNT WHERE(CUST_CNT_REC_ID = '100100' OR CUST_CNT_REC_ID = '100200' OR CUST_CNT_REC_ID = '100400' OR CUST_CNT_REC_ID = '100500') AND((to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = (to_char(to_date('" + _prevEndOfMonth + "', 'MM-DD-YYYY'), 'DD-MON-YYYY'))) GROUP BY CUST_CNT_DATE) AS CURR FROM CUSTOMER_COUNT)) UNION ALL (SELECT (CURR -PREV) CNT FROM(SELECT DISTINCT (SELECT sum(CUST_CNT) CUST_CNT FROM CUSTOMER_COUNT WHERE CUST_CNT_REC_ID = '102100' AND ((to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = (to_char(to_date('" + _prev2EndOfMonth + "', 'MM-DD-YYYY'), 'DD-MON-YYYY'))) GROUP BY CUST_CNT_DATE) AS PREV, (SELECT sum(CUST_CNT) CUST_CNT FROM CUSTOMER_COUNT WHERE CUST_CNT_REC_ID = '102100' AND((to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = (to_char(to_date('" + _prevEndOfMonth + "', 'MM-DD-YYYY'), 'DD-MON-YYYY'))) GROUP BY CUST_CNT_DATE) AS CURR FROM CUSTOMER_COUNT)) UNION ALL (SELECT (CURR -PREV) CNT FROM(SELECT DISTINCT (SELECT sum(CUST_CNT) CUST_CNT FROM CUSTOMER_COUNT WHERE CUST_CNT_REC_ID = '102500' AND ((to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = (to_char(to_date('" + _prev2EndOfMonth + "', 'MM-DD-YYYY'), 'DD-MON-YYYY'))) GROUP BY CUST_CNT_DATE) AS PREV, (SELECT sum(CUST_CNT) CUST_CNT FROM CUSTOMER_COUNT WHERE CUST_CNT_REC_ID = '102500' AND((to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = (to_char(to_date('" + _prevEndOfMonth + "', 'MM-DD-YYYY'), 'DD-MON-YYYY'))) GROUP BY CUST_CNT_DATE) AS CURR FROM CUSTOMER_COUNT)) UNION ALL (SELECT (CURR -PREV) CNT FROM(SELECT DISTINCT (SELECT sum(CUST_CNT) CUST_CNT FROM CUSTOMER_COUNT WHERE CUST_CNT_REC_ID = '103300' AND ((to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = (to_char(to_date('" + _prev2EndOfMonth + "', 'MM-DD-YYYY'), 'DD-MON-YYYY'))) GROUP BY CUST_CNT_DATE) AS PREV, (SELECT sum(CUST_CNT) CUST_CNT FROM CUSTOMER_COUNT WHERE CUST_CNT_REC_ID = '103300' AND((to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = (to_char(to_date('" + _prevEndOfMonth + "', 'MM-DD-YYYY'), 'DD-MON-YYYY'))) GROUP BY CUST_CNT_DATE) AS CURR FROM CUSTOMER_COUNT))";
+        sql = "(SELECT (CURR - PREV) CNT FROM (SELECT DISTINCT (SELECT sum(CUST_CNT) CUST_CNT FROM CUSTOMER_COUNT WHERE (CUST_CNT_REC_ID = '100100' OR CUST_CNT_REC_ID = '100200' OR CUST_CNT_REC_ID = '100400' OR CUST_CNT_REC_ID = '100500') AND ((to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = (to_char(to_date('" + _prevEndOfMonth + "', 'MM-DD-YYYY'), 'DD-MON-YYYY'))) GROUP BY CUST_CNT_DATE) AS PREV, (SELECT sum(CUST_CNT) CUST_CNT FROM CUSTOMER_COUNT WHERE (CUST_CNT_REC_ID = '100100' OR CUST_CNT_REC_ID = '100200' OR CUST_CNT_REC_ID = '100400' OR CUST_CNT_REC_ID = '100500') AND ((to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = (to_char(to_date('" + _endOfMonth + "', 'MM-DD-YYYY'), 'DD-MON-YYYY'))) GROUP BY CUST_CNT_DATE) AS CURR FROM CUSTOMER_COUNT)) UNION ALL (SELECT (CURR -PREV) CNT FROM (SELECT DISTINCT (SELECT sum(CUST_CNT) CUST_CNT FROM CUSTOMER_COUNT WHERE CUST_CNT_REC_ID = '102100' AND ((to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = (to_char(to_date('" + _prevEndOfMonth + "', 'MM-DD-YYYY'), 'DD-MON-YYYY'))) GROUP BY CUST_CNT_DATE) AS PREV, (SELECT sum(CUST_CNT) CUST_CNT FROM CUSTOMER_COUNT WHERE CUST_CNT_REC_ID = '102100' AND ((to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = (to_char(to_date('" + _endOfMonth + "', 'MM-DD-YYYY'), 'DD-MON-YYYY'))) GROUP BY CUST_CNT_DATE) AS CURR FROM CUSTOMER_COUNT)) UNION ALL (SELECT (CURR -PREV) CNT FROM (SELECT DISTINCT (SELECT sum(CUST_CNT) CUST_CNT FROM CUSTOMER_COUNT WHERE CUST_CNT_REC_ID = '102500' AND ((to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = (to_char(to_date('" + _prevEndOfMonth + "', 'MM-DD-YYYY'), 'DD-MON-YYYY'))) GROUP BY CUST_CNT_DATE) AS PREV, (SELECT sum(CUST_CNT) CUST_CNT FROM CUSTOMER_COUNT WHERE CUST_CNT_REC_ID = '102500' AND ((to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = (to_char(to_date('" + _endOfMonth + "', 'MM-DD-YYYY'), 'DD-MON-YYYY'))) GROUP BY CUST_CNT_DATE) AS CURR FROM CUSTOMER_COUNT)) UNION ALL (SELECT (CURR -PREV) CNT FROM (SELECT DISTINCT (SELECT sum(CUST_CNT) CUST_CNT FROM CUSTOMER_COUNT WHERE CUST_CNT_REC_ID = '103300' AND ((to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = (to_char(to_date('" + _prevEndOfMonth + "', 'MM-DD-YYYY'), 'DD-MON-YYYY'))) GROUP BY CUST_CNT_DATE) AS PREV, (SELECT sum(CUST_CNT) CUST_CNT FROM CUSTOMER_COUNT WHERE CUST_CNT_REC_ID = '103300' AND ((to_char(to_date(CUST_CNT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY')) = (to_char(to_date('" + _endOfMonth + "', 'MM-DD-YYYY'), 'DD-MON-YYYY'))) GROUP BY CUST_CNT_DATE) AS CURR FROM CUSTOMER_COUNT))";
         DataTable dtDealerGainedTotal = DBHelper.SelectDataTable(sql);
 
         for (int i = 0; i < dtDealerGainedTotal.Rows.Count; i++)
