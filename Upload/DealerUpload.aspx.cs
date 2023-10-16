@@ -167,6 +167,7 @@ public partial class Upload_DealerUpload : System.Web.UI.Page
                             c.Rate = "0.00";
 
                         c.EnteredDate = DateTime.Now.ToString("MM/dd/yyyy");
+                        
                         c.EnteredId = Session["userId"].ToString();
                         ci.Insert(c);
                         cntRec = cntRec + 1;
@@ -178,7 +179,8 @@ public partial class Upload_DealerUpload : System.Web.UI.Page
                 DateTime today = DateTime.Today;
 
                 //********************* TESTING  ****************
-                //today = today.AddDays(-10);
+                //today = today.AddDays(-16);
+
                 //********************* TESTING  ****************
 
                 _endOfMonth = new DateTime(today.Year, today.Month, DateTime.DaysInMonth(today.Year, today.Month)).ToShortDateString();
@@ -439,6 +441,7 @@ public partial class Upload_DealerUpload : System.Web.UI.Page
                 case "101800":
                 case "101900":
                 case "102000":
+                case "102050":
                     _total1 = _total1 + Convert.ToInt32(cc.CustCnt);
                     break;
                 case "102300":
