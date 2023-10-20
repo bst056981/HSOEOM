@@ -132,7 +132,7 @@ public partial class Upload_DealerUpload : System.Web.UI.Page
                 //********************* TESTING  comment out below code ****************
                 for (int i = 0; i < dtExcelData.Rows.Count; i++)
                 {
-                    if (!String.IsNullOrEmpty(dtExcelData.Rows[i][1].ToString()))
+                    if (!String.IsNullOrEmpty(dtExcelData.Rows[i][0].ToString()))
                     {
                         c.CustId = DBHelper.SelectDecimal(Customer.GET_CUST_ID).ToString();
                         c.Dice = dtExcelData.Rows[i][0].ToString().Trim();
